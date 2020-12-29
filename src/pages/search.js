@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react'
 import SimpleBottomNavigation from '../components/navigationBar'
 import Graph from "react-graph-vis";
+import {connect} from 'react-redux';
 // import "./styles.css";
 
 
 
-const Search = () =>{
+const Search = ({connections}) =>{
   const events = {
     selectEdge: (event, id) => {
       var { nodes, edges } = event;
@@ -94,7 +95,7 @@ const Search = () =>{
         //   colors['color'] = 'blue'
         // }   
     }
-    
+    console.log("FINISHED CONVERT");
     return {
       nodes: nodes,
       edges: edges
@@ -107,24 +108,6 @@ const [graph, setGraph] = useState( { nodes: [],  edges: []})
 const [erdesAdj, setErdesAdj] = useState(undefined)
 
 
-useEffect ( async () => {
-
-            const data = await fetch("erdesAdj.js");
-            console.log(!!data);
-            const jsondata = await data.json();
-            setErdesAdj(jsondata);
-
-        
-    }, []);
-
-const transfer = (g) => {
-  
-  for (var name in erdesAdj){
-    for (var adj in erdesAdj[name]["coauthors"])
-      g.setEdge(name, adj , 1);
-  }
-}
-
 const lower_upper_case = (str) => {
    var words = str.split(" ");
    var ans = ""
@@ -136,15 +119,12 @@ const lower_upper_case = (str) => {
 }
 
  
-  const handleSubmit = async  (e) => {
+  const handleSubmit = async  (e, graph) => {
     setIsSubmmited(false)
     e.preventDefault();
-    const graphlib = require('graphlib');
-    let g = new graphlib.Graph();
-    transfer(g)
     const ksp = require('k-shortest-path')
 
-    var path = ksp.ksp(g, "Paul Erd\u00f6s", lower_upper_case(value), 4)
+    var path = ksp.ksp(graph, "Paul Erd\u00f6s", lower_upper_case(value), 4)
     var changed_graph = convert(path);
     await setGraph(changed_graph);
     setIsSubmmited(true)
@@ -172,7 +152,7 @@ const lower_upper_case = (str) => {
               position: 'absolute', left: '50%', top: '80%',
               transform: 'translate(-50%, -50%)'
           }}>
-          <form onSubmit={(e) => handleSubmit(e)} >
+          <form onSubmit={(e) => handleSubmit(e, connections.processed_data)} >
               <label>
                 Name:
                 <input type="text"  onChange={(e) => changeVal(e.target.value)} />
@@ -184,4 +164,8 @@ const lower_upper_case = (str) => {
   );
 }
 
-export default Search;
+function mapStateToProps(state) {
+  return {connections: state.connections}
+}
+
+export default connect(mapStateToProps, {})(Search);

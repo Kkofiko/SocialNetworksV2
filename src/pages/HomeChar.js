@@ -3,14 +3,25 @@ import {
   } from 'recharts';
   import SimpleBottomNavigation from '../components/navigationBar'
   import Box from '@material-ui/core/Box';
-  
+  import {connect} from 'react-redux';
   import hardesNumbers from '../jsons/hardesNumbers'
   import {homePageAlgo} from '../Algorithms/homePageAlgo'
-  
-  
+  import {fetchConnections, setProcessedConnections} from '../actions'
+  import {MakeGraph} from '../Algorithms/makeGraph'
+
   const data = homePageAlgo(hardesNumbers);
-  const HomeChar = () =>
+  const HomeChar = ({connections, fetchConnections, setProcessedConnections}) =>
   {
+    const getProcessedConnections = (rawData) => {
+      console.log(rawData);
+      setProcessedConnections(MakeGraph(rawData));
+    }
+
+    console.log(connections);
+    if(!connections.rawData){
+      console.log("In FETCH");
+      fetchConnections((rawData) => getProcessedConnections(rawData));
+    }
     return (  
       <div className="App" >
           <SimpleBottomNavigation  />
@@ -52,4 +63,8 @@ import {
     );
   }
 
-  export default HomeChar;
+  function mapStateToProps(state) {
+    return {connections: state.connections}
+  }
+
+  export default connect(mapStateToProps, {fetchConnections, setProcessedConnections})(HomeChar);
