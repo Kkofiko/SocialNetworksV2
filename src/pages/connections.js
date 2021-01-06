@@ -5,6 +5,8 @@ import {
   // import hardesNumbers from '../jsons/hardesNumbers'
   import Box from '@material-ui/core/Box';
   import { typography } from '@material-ui/system';
+  import backgroundImage from '../components/background.jpg';
+
   
   var numbersCount = [0,0,0,0,0];
   
@@ -32,7 +34,8 @@ import {
           <SimpleBottomNavigation  />
           <div style={{
               position: 'absolute', left: '50%', top: '50%',
-              transform: 'translate(-50%, -50%)'
+              transform: 'translate(-50%, -50%)',
+
           }}>
         
             <header className="Chart">

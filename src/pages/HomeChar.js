@@ -8,6 +8,9 @@ import {
   import {homePageAlgo} from '../Algorithms/homePageAlgo'
   import {fetchConnections, setProcessedConnections} from '../actions'
   import {MakeGraph} from '../Algorithms/makeGraph'
+  import erdesP from '../components/erdesP.jpg';
+  import backgroundImage from '../components/background.jpg';
+  
 
   const data = homePageAlgo(hardesNumbers);
   const HomeChar = ({connections, fetchConnections, setProcessedConnections}) =>
@@ -16,6 +19,7 @@ import {
       console.log(rawData);
       setProcessedConnections(MakeGraph(rawData));
     }
+    
 
     console.log(connections);
     if(!connections.rawData){
@@ -23,21 +27,46 @@ import {
       fetchConnections((rawData) => getProcessedConnections(rawData));
     }
     return (  
-      <div className="App" >
+      <div className="App">
+
           <SimpleBottomNavigation  />
+          <div className="photo" style={{
+                  textAlign: 'right',
+                  marginRight: '75%',
+                  position: 'relative'  
+          }} >
+          <img src={erdesP} alt="erdesP" />
+          </div>
           <div style={{
-              position: 'absolute', left: '50%', top: '50%',
-              transform: 'translate(-50%, -50%)'
+                  textAlign: 'right',
+                  marginRight: '16%',
+                  position: 'relative'  
           }}>
-          <Box component="div" visibility="visible" letterSpacing={1}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-          <br/>incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          <br/> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-          <br/> dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          <br/> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          <br/> mollit anim id est laborum.
+            
+          <Box component="div" visibility="visible" letterSpacing={1} >
+             .פאול ארדש (26.3.1913 - 20.9.1996) היה מתמטיקאי יהודי יליד הונגריה <br />
+             ,פאול היה ידוע בשיתופי הפעולה הרבים שלו, כאשר פרסם בערך כ-1500 מאמרים במשך חייו <br />
+             .לארדש לא היה מקום מגורים קבוע, והוא נדד ממקום למקום כדי לעבוד עם מתמטיקאים אחרים <br />
+             .מספר שיתופי הפעולה יוצאי הדופן שלו הביא ליצירת מספרי ארדש <br />
+             .עיקר תרומתו של ארדש היא לתורת המספרים ולמתמטיקה בדידה , כאשר הוא פרסם מאות מאמרים בנושאי קומבינטוריקה ותורת הגרפים <br />
           </Box>
-          
+          <br /><br />
+          <Box component="div" visibility="visible" letterSpacing={1}>
+            ,ארדש נחשב למתמטיקאי הפורה ביותר בהיסטוריה מבחינת מספר המאמרים שפרסם<br />
+            ,"מסיבה זו, הוא הפך בסביבה המתמטית לנקודת מוקד במה שמכונה "גרף המאמרים <br />
+            ,"כלומר, מחברים שפרסמו מאמר עם ארד נחשבים בעלי "מספר ארדש 1 <br />
+            ."אלו שלא פרסמו מאמר עם ארדש עצמו אבל פרסמו מאמר עם מתמטיקאי שכן עשה זאת  הם בעלי "מספר ארדש 2 <br />
+          </Box>
+          </div>
+        <div style={{
+              position: 'relative',
+              transform: 'translate(-50%, -50%)',
+              marginLeft: '50%',
+              marginTop: "20%", 
+              textAlign: 'right'
+              
+              
+          }}>
           <header className="Chart">
               <LineChart
                   width={1000}
@@ -48,15 +77,14 @@ import {
                   }}
               >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+                  <XAxis dataKey="name" label={{value: "Erdos Number", fontSize: 18, offset:-5 , position: "insideBottom"}}/>
+                  <YAxis dataKey="Number Of Authors" label={{value: "Number Of Authors", angle: -90, fontSize: 18, offset:15 , position: "left"}}/>
                   <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="pv" stroke="#8884d8"  />
-                  <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                  <Legend verticalAlign= {"middle"}/>
+                  <Line type="monotone"  dataKey="Number Of Authors" stroke="#000000" />
               </LineChart>
               </header>
-      </div>  
+        </div>  
           
         
       </div>

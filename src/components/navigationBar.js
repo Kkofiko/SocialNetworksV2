@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
-    width: 1000,
+    width: 700,
   },
 });
 
@@ -22,7 +22,9 @@ export default function SimpleBottomNavigation() {
 
   return (
     <BottomNavigation style={{
-        position: 'absolute', left: '50%', top: '5%', transform: 'translate(-50%, -50%)'}} 
+      
+        position: 'realtive', transform: 'translate(-50%, -50%)', marginLeft: '50%', marginTop:'5%'
+      }} 
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);
@@ -31,14 +33,10 @@ export default function SimpleBottomNavigation() {
       className={classes.root}
     >
       <BottomNavigationAction onClick={() => history.push('/') } label="HOME-PAGE" icon={<HomeIcon color="action" />} />
-      <BottomNavigationAction onClick={() => history.push('/Connections')}label="Statistics" icon={<EqualizerIcon />} />
+      <BottomNavigationAction onClick={() => history.push('/Statistics')}label="Statistics" icon={<EqualizerIcon />} />
       <BottomNavigationAction onClick={() => history.push('/search')} label="Search page" icon={<SearchIcon />} />
-      <BottomNavigationAction onClick={() => history.push('/Statistics')} label="Connection between two people" icon={<SettingsInputComponentIcon />} />
+      <BottomNavigationAction onClick={() => history.push('/Connections')} label="Connection between two people" icon={<SettingsInputComponentIcon />} />
     </BottomNavigation>
   );
+  
 }
-
-// <BottomNavigationAction onClick={() => history.push('/') } label="HOME-PAGE" icon={<HomeIcon color="action" />} />
-//       <BottomNavigationAction onClick={() => history.push('/Connections')}label="Connection between two people" icon={<SettingsInputComponentIcon />} />
-//       <BottomNavigationAction onClick={() => history.push('/search')} label="Search page" icon={<SearchIcon />} />
-//       <BottomNavigationAction onClick={() => history.push('/Statistics')} label="Statistics" icon={<EqualizerIcon />} />
