@@ -12,7 +12,7 @@ export const MakeGraph  = (erdesAdj) => {
     }
     
     const graphlib = require('graphlib');
-    let graph = new graphlib.Graph(); // TODO : remove it from here so it would happen before submit
+    let graph = new graphlib.Graph(); 
     var g = transfer(graph)
     console.log("FINISHED");
     console.log(g);

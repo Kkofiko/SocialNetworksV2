@@ -1,2 +1,2 @@
- const data = [1, 180, 5229, 124646, 346826];
+ const data = [1, 180, 5229, 124648, 1048205];
  export default data;

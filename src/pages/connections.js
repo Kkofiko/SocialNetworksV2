@@ -6,28 +6,86 @@ import {
   import Box from '@material-ui/core/Box';
   import { typography } from '@material-ui/system';
   import backgroundImage from '../components/background.jpg';
+  import { publDict } from '../jsons/publications_dict';
+  import { authors_to_publication } from '../jsons/authors_to_publication';
+  import {fetchStats} from '../actions'
+  // import { ardashNumbers } from '../../public/ardash_numbersers';
 
   
-  var numbersCount = [0,0,0,0,0];
-  
-  
-  
-  const data = [
-    {
-      name: '1', uv: numbersCount[1]
-    },
-    {
-      name: '2', uv: numbersCount[2]
-    },
-    {
-      name: '3', uv: numbersCount[3]
-    },
-    {
-      name: '4', uv: numbersCount[4]
+  const connections = (fetchStats, stats) =>
+  { 
+  const author_age  = (author) => {
+    var articals_id = authors_to_publication[author] //array of this author artical id
+    var age = 0; //minimal age
+    for (var artical in articals_id){ //go over all artical
+      var artical_id = articals_id[artical];
+      if (publDict[artical_id] != undefined){
+        var date = publDict[artical_id]['year'] //string of date
+        var age_of_artical = 2020 - date 
+        // console.log(age_of_artical)
+        if(age_of_artical > age){
+          age = age_of_artical
+        }
+      }
     }
-  ];
-  const search = () =>
-  {
+    return age;
+  } 
+  
+  const number_of_articals = (author) => {
+      if( authors_to_publication[author] != undefined)
+        return authors_to_publication[author].length
+      else{
+         return 0
+      }
+    }
+//   const ardashNumbers = (author) => (ardashNumbers[author])
+  
+  
+  
+  const avrage_articals_per_age = (age) => {  
+      var counter = 0;
+      var accum = 0; 
+      for(var author in authors_to_publication){
+        var author_name = authors_to_publication[author]
+        if(author_age(author_name) === age){
+              counter = counter + 1;
+              accum = accum + number_of_articals(author_name)
+        }
+      }
+       return (accum/counter)
+  }
+//  const avarge_erdos_num_per_age = (age) => {
+//    var counter = 0;
+//    var accum = 0;
+//    for(var author in authors_to_publication){
+//         var author_name = authors_to_publication[author]
+//         if(author_age(author_name) === age){
+//               counter = counter + 1;
+//               accum = accum + ardashNumbers(author_name)
+//         }
+//   }
+const make_data_avarge_artricals = () => {
+ var the_Data = [];
+ var i = 0;
+ while(i < 70){
+    the_Data.push({name: i, uv: avrage_articals_per_age(i)})
+
+}
+return the_Data
+}
+// const make_data_avarge_erdos_num = () => {
+//  var the_Data = [];
+//  var i = 0;
+//  while(i < 6){
+//  data.push({name: i, uv: avarge_erdos_num_per_age(i)})
+
+// }
+// return the_Data
+// }
+  const data = make_data_avarge_artricals()
+
+
+ 
     
     return (
       <div className="App" >
@@ -61,4 +119,9 @@ import {
     );
   }
   
-  export default search;
+
+  function mapStateToProps(state) {
+    return {stats: state.stats}
+  
+  }
+  export default connect(mapStateToProps, {})(connections);

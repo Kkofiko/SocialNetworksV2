@@ -1,4 +1,4 @@
-import {FETCH_CONNECTIONS, GET_PROCESSED_CONNECTIONS} from '../actions'
+import {FETCH_CONNECTIONS, GET_PROCESSED_CONNECTIONS, PUT_DATA_FROM_LOCAL_STORAGE} from '../actions'
 
 let initialState = {rawData: null, processed_data: null}
 

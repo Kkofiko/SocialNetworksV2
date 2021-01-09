@@ -1,20 +1,38 @@
   import SimpleBottomNavigation from '../components/navigationBar'
   import React, { useState, useEffect } from 'react'
   import Graph from "react-graph-vis";
-  import MakeGraph from '../Algorithms/makeGraph';  
   import { CommonLoading } from 'react-loadingg';
-  import backgroundImage from '../components/background.jpg';
   import {connect} from 'react-redux';
   import TextField from '@material-ui/core/TextField';
   import Autocomplete from '@material-ui/lab/Autocomplete';
   import SendIcon from '@material-ui/icons/Send'; 
   import Button from '@material-ui/core/Button'; 
+  import { getLinks } from '../Algorithms/getLinks'
 
   const EmptyGraph = {nodes: [],  edges: []};
   const Statistics = ({connections}) =>{
     const events = {
-      select: function(event) {
-        var { nodes, edges } = event;
+      selectEdge: function(event) {
+        var Sedges = event['edges'][0];
+        var fromnode;
+        var tonode;
+        for (var edge in graph['edges']){
+          if (graph['edges'][edge]['id'] == Sedges){
+            fromnode = graph['edges'][edge]['from']
+            tonode = graph['edges'][edge]['to']
+          }
+        }
+        for (var node in graph['nodes']){
+          if (graph['nodes'][node]['id'] == fromnode){
+            fromnode = graph['nodes'][node]['label']
+          }
+          if (graph['nodes'][node]['id'] == tonode){
+            tonode = graph['nodes'][node]['label']
+          }
+        }
+  
+        setLinks(getLinks(tonode, fromnode));
+  
       }
     };
     
@@ -104,6 +122,7 @@ const [numOfPaths,setNumOfpaths] = useState(1);
 const [isSubmmited ,setIsSubmmited] = useState(false)
 const [loading ,setLoading] = useState(false)
 const [graph, setGraph] = useState(EmptyGraph)
+const [Links, setLinks] = useState([])
 
 
 
@@ -237,6 +256,15 @@ const optionss = getNames(connections.rawData);
             </form>
          
             </div>
+
+            <div style={{
+              position: 'absolute', left: '50%', top: '110%',
+              transform: 'translate(-50%, -50%)'
+          }}>
+          { Links.length ? (Links.map( (link) => 
+          <p> article title: {link.title} <br/> Links : {link.Links} <br/></p>  )
+          ) : "" }
+          </div>
      </div>
   );
 }

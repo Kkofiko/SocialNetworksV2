@@ -9,7 +9,6 @@ const Navbar = () => {
              <div className="Routes">
                 <Route exact path='/' component={HomeChar} />
                 <Route exact path='/search' component={search} />
-                <Route exact path='/statistics' component={conncetions} />
                 <Route exact path='/connections' component={statistics} />
                 
             </div>

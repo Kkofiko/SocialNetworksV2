@@ -6,14 +6,14 @@ import {
   import {connect} from 'react-redux';
   import hardesNumbers from '../jsons/hardesNumbers'
   import {homePageAlgo} from '../Algorithms/homePageAlgo'
-  import {fetchConnections, setProcessedConnections} from '../actions'
+  import {fetchConnections, setProcessedConnections, putDataFromLocalStorage, fetchStats} from '../actions'
   import {MakeGraph} from '../Algorithms/makeGraph'
   import erdesP from '../components/erdesP.jpg';
-  import backgroundImage from '../components/background.jpg';
+ 
   
 
   const data = homePageAlgo(hardesNumbers);
-  const HomeChar = ({connections, fetchConnections, setProcessedConnections}) =>
+  const HomeChar = ({connections, fetchConnections, setProcessedConnections, putDataFromLocalStorage, stats, fetchStats}) =>
   {
     const getProcessedConnections = (rawData) => {
       console.log(rawData);
@@ -23,8 +23,13 @@ import {
 
     console.log(connections);
     if(!connections.rawData){
-      console.log("In FETCH");
-      fetchConnections((rawData) => getProcessedConnections(rawData));
+        console.log("In FETCH");
+        fetchConnections((rawData) => getProcessedConnections(rawData));
+      
+    }
+    if(!stats.authors_to_publications){
+      fetchStats();
+      console.log(stats);
     }
     return (  
       <div className="App">
@@ -92,7 +97,7 @@ import {
   }
 
   function mapStateToProps(state) {
-    return {connections: state.connections}
+    return {connections: state.connections, stats: state.stats}
   }
 
-  export default connect(mapStateToProps, {fetchConnections, setProcessedConnections})(HomeChar);
+  export default connect(mapStateToProps, {fetchConnections, setProcessedConnections, putDataFromLocalStorage, fetchStats})(HomeChar);

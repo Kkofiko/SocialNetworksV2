@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Linking } from 'react';
 import SimpleBottomNavigation from '../components/navigationBar'
 import Graph from "react-graph-vis";
 import {connect} from 'react-redux';
@@ -7,15 +8,34 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SendIcon from '@material-ui/icons/Send'; 
 import Button from '@material-ui/core/Button'; 
 import { CommonLoading } from 'react-loadingg';
+import { getLinks } from '../Algorithms/getLinks'
 
 const EmptyGraph = {nodes: [],  edges: []};
 
 const Search = ({connections}) =>{
   const events = {
-    setSelect: function(event) {
-      var { nodes, edges } = event;
+    selectEdge: function(event) {
+      var Sedges = event['edges'][0];
+      var fromnode;
+      var tonode;
+      for (var edge in graph['edges']){
+        if (graph['edges'][edge]['id'] == Sedges){
+          fromnode = graph['edges'][edge]['from']
+          tonode = graph['edges'][edge]['to']
+        }
+      }
+      for (var node in graph['nodes']){
+        if (graph['nodes'][node]['id'] == fromnode){
+          fromnode = graph['nodes'][node]['label']
+        }
+        if (graph['nodes'][node]['id'] == tonode){
+          tonode = graph['nodes'][node]['label']
+        }
+      }
+
+      setLinks(getLinks(tonode, fromnode));
+
     }
-    
     
   };
   
@@ -101,7 +121,7 @@ const [numOfPaths,setNumOfpaths] = useState(1);
 const [isSubmmited ,setIsSubmmited] = useState(false)
 const [loading ,setLoading] = useState(false)
 const [graph, setGraph] = useState(EmptyGraph)
-
+const [Links, setLinks] = useState([])
 
 
 const lower_upper_case = (str) => {
@@ -131,15 +151,15 @@ const getNames = (data) => {
 }
 
 useEffect ( async () => {
-  console.log(isSubmmited);
-  console.log(graph)
+
+
   if (graph === EmptyGraph)
     setIsSubmmited(false);
   else {
     setIsSubmmited(true);
     setLoading(false)
   }
-  console.log(isSubmmited);
+
 },[graph]);
 
 
@@ -156,7 +176,9 @@ const optionss = getNames(connections.rawData);
      return;
     }
     setTimeout(()=> {
+      console.log("started algo")
       var path = ksp.ksp(graph, "Paul Erd\u00f6s", lower_upper_case(value), numOfPaths)
+      console.log("ended")
       var changed_graph = convert(path);
       setGraph(changed_graph);
     },500)
@@ -191,6 +213,7 @@ const optionss = getNames(connections.rawData);
             id="combo-box-demo"
             options={optionss}
             getOptionLabel={(option) => option}
+            
             style={{ width: 300 }}
             onChange={(e, value) => {changeVal(value)} }
             renderInput={(params) => <TextField {...params} type="text" label="author name"
@@ -216,13 +239,25 @@ const optionss = getNames(connections.rawData);
                  </Button>
             </form>
          
-            </div>
+          </div>
+
+          <div style={{
+              position: 'absolute', left: '50%', top: '110%',
+              transform: 'translate(-50%, -50%)'
+          }}>
+          { Links.length ? (Links.map( (link) => {
+          <p> article title: {link.title} <br/> link: {link.Links} </p>})) : ""}
+          </div>
+          
+         
+          
      </div>
   );
 }
 
+
 function mapStateToProps(state) {
   return {connections: state.connections}
-}
 
+}
 export default connect(mapStateToProps, {})(Search);
