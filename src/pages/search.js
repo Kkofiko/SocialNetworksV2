@@ -9,12 +9,15 @@ import SendIcon from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button'; 
 import { CommonLoading } from 'react-loadingg';
 import { getLinks } from '../Algorithms/getLinks'
+import { Route } from 'react-router-dom';
 
 const EmptyGraph = {nodes: [],  edges: []};
+const EmptyLinks = [];
 
 const Search = ({connections}) =>{
   const events = {
     selectEdge: function(event) {
+      setLinks(EmptyLinks)
       var Sedges = event['edges'][0];
       var fromnode;
       var tonode;
@@ -32,7 +35,7 @@ const Search = ({connections}) =>{
           tonode = graph['nodes'][node]['label']
         }
       }
-
+      console.log(getLinks(tonode, fromnode))
       setLinks(getLinks(tonode, fromnode));
 
     }
@@ -121,7 +124,7 @@ const [numOfPaths,setNumOfpaths] = useState(1);
 const [isSubmmited ,setIsSubmmited] = useState(false)
 const [loading ,setLoading] = useState(false)
 const [graph, setGraph] = useState(EmptyGraph)
-const [Links, setLinks] = useState([])
+const [Links, setLinks] = useState(EmptyLinks)
 
 
 const lower_upper_case = (str) => {
@@ -182,8 +185,6 @@ const optionss = getNames(connections.rawData);
       var changed_graph = convert(path);
       setGraph(changed_graph);
     },500)
-    
-
   } 
 
  return (
@@ -211,9 +212,9 @@ const optionss = getNames(connections.rawData);
 
           <Autocomplete
             id="combo-box-demo"
-            options={optionss}
+            options={optionss.sort((a, b) => -b[0].localeCompare(a[0]))}
             getOptionLabel={(option) => option}
-            
+            groupBy={(option) => option[0]}
             style={{ width: 300 }}
             onChange={(e, value) => {changeVal(value)} }
             renderInput={(params) => <TextField {...params} type="text" label="author name"
@@ -242,14 +243,19 @@ const optionss = getNames(connections.rawData);
           </div>
 
           <div style={{
-              position: 'absolute', left: '50%', top: '110%',
+              position: 'absolute', left: '20%', top: '20%',
               transform: 'translate(-50%, -50%)'
           }}>
-          { Links.length ? (Links.map( (link) => {
-          <p> article title: {link.title} <br/> link: {link.Links} </p>})) : ""}
+          { Links.length ? (Links.map( (link) => 
+          <p> articles : {Array.isArray(link.Links) ? 
+            
+            (link.Links.map( (lik) => 
+             <a target="_blank" href={lik}>{link.title} <br/></a> 
+            )) 
+            : <a target="_blank" href={link.Links}>{link.title}</a>} <br/></p>  )
+          ) : "" }
           </div>
-          
-         
+        
           
      </div>
   );

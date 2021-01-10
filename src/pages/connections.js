@@ -3,14 +3,10 @@ import {
   } from 'recharts';
   import SimpleBottomNavigation from '../components/navigationBar'
   // import hardesNumbers from '../jsons/hardesNumbers'
-  import Box from '@material-ui/core/Box';
-  import { typography } from '@material-ui/system';
-  import backgroundImage from '../components/background.jpg';
   import { publDict } from '../jsons/publications_dict';
   import { authors_to_publication } from '../jsons/authors_to_publication';
-  import {fetchStats} from '../actions'
   // import { ardashNumbers } from '../../public/ardash_numbersers';
-
+  import {connect} from 'react-redux';
   
   const connections = (fetchStats, stats) =>
   { 
@@ -82,10 +78,7 @@ return the_Data
 // }
 // return the_Data
 // }
-  const data = make_data_avarge_artricals()
-
-
- 
+  const data = make_data_avarge_artricals();
     
     return (
       <div className="App" >

@@ -8,6 +8,7 @@
   import SendIcon from '@material-ui/icons/Send'; 
   import Button from '@material-ui/core/Button'; 
   import { getLinks } from '../Algorithms/getLinks'
+import { Link } from 'react-router-dom';
 
   const EmptyGraph = {nodes: [],  edges: []};
   const Statistics = ({connections}) =>{
@@ -218,8 +219,9 @@ const optionss = getNames(connections.rawData);
 
           <Autocomplete
             id="combo-box-demo"
-            options={optionss}
+            options={optionss.sort((a, b) => -b[0].localeCompare(a[0]))}
             getOptionLabel={(option) => option}
+            groupBy={(option) => option[0]}
             style={{ width: 300 }}
             onChange={(e, value) => {changeVal("start",value)} }
             renderInput={(params) => <TextField {...params} type="text" label="author from"
@@ -228,8 +230,9 @@ const optionss = getNames(connections.rawData);
           />
            <Autocomplete
             id="combo-box-demo1"
-            options={optionss}
+            options={optionss.sort((a, b) => -b[0].localeCompare(a[0]))}
             getOptionLabel={(option) => option}
+            groupBy={(option) => option[0]}
             style={{ width: 300 }}
             onChange={(e,value) => changeVal("finish",value)}
             renderInput={(params) => <TextField {...params} type="text" label="author to"
@@ -258,13 +261,20 @@ const optionss = getNames(connections.rawData);
             </div>
 
             <div style={{
-              position: 'absolute', left: '50%', top: '110%',
+              position: 'absolute', left: '20%', top: '20%',
               transform: 'translate(-50%, -50%)'
           }}>
           { Links.length ? (Links.map( (link) => 
-          <p> article title: {link.title} <br/> Links : {link.Links} <br/></p>  )
+          <p> articles : {Array.isArray(link.Links) ? 
+            
+            (link.Links.map( (lik) => 
+             <a target="_blank" href={lik}>{link.title} <br/></a> 
+            )) 
+            : <a target="_blank" href={link.Links}>{link.title}</a>} <br/></p>  )
           ) : "" }
           </div>
+
+         
      </div>
   );
 }

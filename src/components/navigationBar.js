@@ -33,8 +33,7 @@ export default function SimpleBottomNavigation() {
       className={classes.root}
     >
       <BottomNavigationAction onClick={() => history.push('/') } label="HOME-PAGE" icon={<HomeIcon color="action" />} />
-      <BottomNavigationAction onClick={() => history.push('/Statistics')}label="Statistics" icon={<EqualizerIcon />} />
-      <BottomNavigationAction onClick={() => history.push('/search')} label="Search page" icon={<SearchIcon />} />
+      <BottomNavigationAction onClick={() => history.push('/search')} label="connection to hardes" icon={<SearchIcon />} />
       <BottomNavigationAction onClick={() => history.push('/Connections')} label="Connection between two people" icon={<SettingsInputComponentIcon />} />
     </BottomNavigation>
   );

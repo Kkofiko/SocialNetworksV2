@@ -6,14 +6,14 @@ import {
   import {connect} from 'react-redux';
   import hardesNumbers from '../jsons/hardesNumbers'
   import {homePageAlgo} from '../Algorithms/homePageAlgo'
-  import {fetchConnections, setProcessedConnections, putDataFromLocalStorage, fetchStats} from '../actions'
+  import {fetchConnections, setProcessedConnections} from '../actions'
   import {MakeGraph} from '../Algorithms/makeGraph'
   import erdesP from '../components/erdesP.jpg';
  
   
 
   const data = homePageAlgo(hardesNumbers);
-  const HomeChar = ({connections, fetchConnections, setProcessedConnections, putDataFromLocalStorage, stats, fetchStats}) =>
+  const HomeChar = ({connections, fetchConnections, setProcessedConnections, stats}) =>
   {
     const getProcessedConnections = (rawData) => {
       console.log(rawData);
@@ -27,10 +27,10 @@ import {
         fetchConnections((rawData) => getProcessedConnections(rawData));
       
     }
-    if(!stats.authors_to_publications){
-      fetchStats();
-      console.log(stats);
-    }
+    // if(!stats.authors_to_publications){
+    //   fetchStats();
+    //   console.log(stats);
+    // }
     return (  
       <div className="App">
 
@@ -66,7 +66,7 @@ import {
         <div style={{
               position: 'relative',
               transform: 'translate(-50%, -50%)',
-              marginLeft: '50%',
+              marginLeft: '45%',
               marginTop: "20%", 
               textAlign: 'right'
               
@@ -100,4 +100,4 @@ import {
     return {connections: state.connections, stats: state.stats}
   }
 
-  export default connect(mapStateToProps, {fetchConnections, setProcessedConnections, putDataFromLocalStorage, fetchStats})(HomeChar);
+  export default connect(mapStateToProps, {fetchConnections, setProcessedConnections})(HomeChar);
