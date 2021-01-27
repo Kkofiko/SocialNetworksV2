@@ -41,7 +41,6 @@ const Search = ({connections}) =>{
     }
     
   };
-  
   const options = {
     layout: {
       improvedLayout: true
@@ -58,7 +57,6 @@ const Search = ({connections}) =>{
   const changeNUmberOfPaths = (num) =>{
     setNumOfpaths(num);
   } 
-
   const convert = (paths) => {
     var nodesList = [];
     var nodes = [];
@@ -126,7 +124,6 @@ const [loading ,setLoading] = useState(false)
 const [graph, setGraph] = useState(EmptyGraph)
 const [Links, setLinks] = useState(EmptyLinks)
 
-
 const lower_upper_case = (str) => {
    var words = str.split(" ");
    var ans = ""
@@ -144,7 +141,6 @@ const valid_input = (name) =>{
   }
   return false
 }
-
 const getNames = (data) => {
   var val = [];
   for(var v in data){
@@ -152,7 +148,6 @@ const getNames = (data) => {
   }
   return val
 }
-
 useEffect ( async () => {
 
 
@@ -164,11 +159,8 @@ useEffect ( async () => {
   }
 
 },[graph]);
-
-
-const optionss = getNames(connections.rawData);
-
-  const handleSubmit = async  (e, graph) => {
+const optionss = getNames(connections.rawData);  
+const handleSubmit = async  (e, graph) => {
     setLoading(true); 
     setGraph(EmptyGraph)
     e.preventDefault();
